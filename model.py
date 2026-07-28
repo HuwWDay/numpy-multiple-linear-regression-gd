@@ -297,8 +297,14 @@ def fit_lr_model(model, X_train, y_train, X_val, y_val):
     model["val_losses"] = val_losses
     return model
 
-# Step 26 - predict_lr_model (not yet solved)
-# TODO: implement
+# Step 26 - predict_lr_model
+def predict_lr_model(model, X):
+    # TODO: Return predicted targets for raw X using the fitted model.
+    mean, std = model["mean"], model["std"]
+    weights = model["weights"]
+    X_design = prepare_design_matrix(X, mean, std)
+    y_pred = predict_linear(X_design, weights)
+    return y_pred
 
 # Step 27 - score_lr_model (not yet solved)
 # TODO: implement
