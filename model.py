@@ -90,10 +90,8 @@ def mse_gradient(X, y_true, y_pred):
 
 # Step 10 - normal_equation
 def normal_equation(X, y):
-    # TODO: Solve for the closed-form least-squares weights via the normal equation.
-    A = X.T @ X 
-    b = X.T @ y 
-    return np.linalg.solve(A, b)
+    """Solve for closed-form least-squares weights via Moore-Penrose pseudoinverse."""
+    return np.linalg.pinv(X) @ y
 
 # Step 11 - initialize_weights
 def initialize_weights(n_features, seed=None):
@@ -280,8 +278,24 @@ def create_lr_model(learning_rate=0.01, epochs=1000, patience=50, seed=0):
     out["val_losses"] = []
     return out
 
-# Step 25 - fit_lr_model (not yet solved)
-# TODO: implement
+# Step 25 - fit_lr_model
+def fit_lr_model(model, X_train, y_train, X_val, y_val):
+    # TODO: Fit model with train stats, design matrices, GD, and normal eq
+    lr, epochs, patience, seed = model["learning_rate"], model["epochs"], model["patience"], model["seed"]
+    mean, std = compute_feature_stats(X_train)
+    X_train_d = prepare_design_matrix(X_train, mean, std)
+    X_val_d = prepare_design_matrix(X_val, mean, std)
+    weights, train_losses, val_losses = train_batch_gd(X_train_d, y_train, X_val_d, y_val, lr, epochs, patience, seed=seed)
+    normal_weights = normal_equation(X_train_d, y_train)
+    
+    model["weights"] = weights
+    model["normal_weights"] = normal_weights
+    model["mean"] = mean 
+    model["std"] = std
+
+    model["train_losses"] = train_losses
+    model["val_losses"] = val_losses
+    return model
 
 # Step 26 - predict_lr_model (not yet solved)
 # TODO: implement
