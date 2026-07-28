@@ -264,8 +264,21 @@ def weights_l2_distance(w_gd, w_closed):
     # TODO: Compute the L2 distance between two weight vectors
     return np.sqrt(np.sum((w_gd-w_closed)**2))
 
-# Step 24 - create_lr_model (not yet solved)
-# TODO: implement
+# Step 24 - create_lr_model
+def create_lr_model(learning_rate=0.01, epochs=1000, patience=50, seed=0):
+    # TODO: Build the initial LinearRegressionGD-style model dictionary...
+    out = {}
+    out["learning_rate"] = learning_rate 
+    out["epochs"] = epochs 
+    out["patience"] = patience 
+    out["seed"] = seed 
+    out["weights"] = None 
+    out["normal_weights"] = None 
+    out["mean"] = None 
+    out["std"] = None 
+    out["train_losses"] = []
+    out["val_losses"] = []
+    return out
 
 # Step 25 - fit_lr_model (not yet solved)
 # TODO: implement
